@@ -1,0 +1,19 @@
+compute_engine_instance:
+  # Image list available via
+  # gcloud compute images list --project freebsd-org-cloud-dev --no-standard-images
+  platform: freebsd
+  image_project: freebsd-org-cloud-dev
+  image: freebsd-13-0-release-amd64
+  cpu: 1
+  memory: 2G
+  disk: 30
+
+task:
+  name: amd64 build
+  install_script:
+  - pkg install -y autoconf automake libtool lynx
+  setup_script:
+  - sh bootstrap
+  script:
+  - ./configure
+  - make -j $(sysctl -n hw.ncpu)
